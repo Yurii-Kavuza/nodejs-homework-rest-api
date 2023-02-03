@@ -45,7 +45,17 @@ const updateContactsById = async (id, data) => {
   if (idx === -1) {
     return null;
   }
-  contacts[idx] = { id, ...data };
+
+   const existName = contacts[index].name;
+   const existEmail = contacts[index].email;
+   const existPhone = contacts[index].phone;
+
+  contacts[idx] = {
+    id,
+    name: data.name ?? existName,
+    email: data.email ?? existEmail,
+    phone: String(data.phone ?? existPhone),
+  };
   await updateData(contacts);
 
   return contacts[idx];
