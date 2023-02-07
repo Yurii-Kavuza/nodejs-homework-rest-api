@@ -1,19 +1,70 @@
-// const fs = require('fs/promises')
+const fs = require("fs").promises;
+const path = require("path");
+const { v4 } = require("uuid");
 
-const listContacts = async () => {}
+const contactsPath = path.join(__dirname, "contacts.json");
 
-const getContactById = async (contactId) => {}
+const updateData = async (newContacts) => {
+  await fs.writeFile(contactsPath, JSON.stringify(newContacts, null, 2));
+};
 
-const removeContact = async (contactId) => {}
+const listContacts = async () => {
+  const data = await fs.readFile(contactsPath);
+  const contacts = JSON.parse(data);
+  return contacts;
+};
 
-const addContact = async (body) => {}
+const getContactById = async (id) => {
+  const contacts = await listContacts();
+  searchedContact = contacts.find((contact) => contact.id === id);
+  return searchedContact || null;
+};
 
-const updateContact = async (contactId, body) => {}
+const removeContact = async (id) => {
+  const contacts = await listContacts();
+  const idx = contacts.findIndex((contact) => contact.id === id);
+  if (idx === -1) {
+    return null;
+  }
+  const newContacts = contacts.filter((contact) => contact.id !== id);
+  await updateData(newContacts);
+  return contacts[idx];
+};
+
+const addContact = async ({ name, email, phone }) => {
+  const contacts = await listContacts();
+  const newContact = { name, email, phone, id: v4() };
+  contacts.push(newContact);
+  await updateData(contacts);
+  return newContact;
+};
+
+const updateContactsById = async (id, data) => {
+  const contacts = await listContacts();
+  const idx = contacts.findIndex((contact) => contact.id === id);
+  if (idx === -1) {
+    return null;
+  }
+
+   const existName = contacts[idx].name;
+   const existEmail = contacts[idx].email;
+   const existPhone = contacts[idx].phone;
+
+  contacts[idx] = {
+    id,
+    name: data.name ?? existName,
+    email: data.email ?? existEmail,
+    phone: String(data.phone ?? existPhone),
+  };
+  await updateData(contacts);
+
+  return contacts[idx];
+};
 
 module.exports = {
   listContacts,
   getContactById,
   removeContact,
   addContact,
-  updateContact,
-}
+  updateContactsById,
+};
