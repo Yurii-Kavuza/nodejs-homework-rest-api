@@ -12,17 +12,23 @@ const router = express.Router();
 
 router.get("/", ctrlWrapper(controller.getAll));
 
-router.get("/:id", validateParams(schemas.joiSchemaParams), ctrlWrapper(controller.getById));
+router.get(
+  "/:id",
+  validateParams(schemas.joiSchemaParams),
+  ctrlWrapper(controller.getById)
+);
 
 router.post("/", validateBody(schemas.joiSchema), ctrlWrapper(controller.add));
 
-router.delete("/:id", validateParams(schemas.joiSchemaParams), ctrlWrapper(controller.deleteById));
+router.delete(
+  "/:id",
+  validateParams(schemas.joiSchemaParams),
+  ctrlWrapper(controller.deleteById)
+);
 
 router.put(
   "/:id",
-  validateParams(schemas.joiSchemaParams),
   validateBody(schemas.joiSchemaUpdate),
-  validateBody(schemas.addSchema),
   ctrlWrapper(controller.updateById)
 );
 
