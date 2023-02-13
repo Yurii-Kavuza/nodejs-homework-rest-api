@@ -1,10 +1,11 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-  
-const contactSchema = new Schema ({
+
+const contactSchema = new Schema(
+  {
     name: {
       type: String,
-      required: [true, 'Set name for contact'],
+      required: [true, "Set name for contact"],
     },
     email: {
       type: String,
@@ -18,28 +19,38 @@ const contactSchema = new Schema ({
       type: Boolean,
       default: false,
     },
-}, {versionKey: false, timestamps: true});
+  },
+  { versionKey: false, timestamps: true }
+);
 
 const joiSchemaAdd = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().email().required(),
-    phone: Joi.string().required(),
-    favorite: Joi.bool(),
+  name: Joi.string().required().messages({
+    "any.required": `Missing required name field`,
+  }),
+  email: Joi.string().email().required().messages({
+    "any.required": `Missing required email field`,
+  }),
+  phone: Joi.string().required().messages({
+    "any.required": `Missing required phone field`,
+  }),
+  favorite: Joi.bool(),
 });
-  
+
 const joiSchemaUpdate = Joi.object({
-    name: Joi.string(),
-    email: Joi.string().email(),
-    phone: Joi.string(),
-    favorite: Joi.bool(),
+  name: Joi.string(),
+  email: Joi.string().email(),
+  phone: Joi.string(),
+  favorite: Joi.bool(),
 });
-  
+
 const joiSchemaParams = Joi.object({
-    id: Joi.string().empty(),
+  id: Joi.string().empty(),
 });
 
 const joiUpdateFavoriteSchema = Joi.object({
-  favorite: Joi.bool().required(),
+  favorite: Joi.bool().required().messages({
+    "any.required": `Missing field favorite`,
+  }),
 });
 
 const schemas = {
@@ -52,6 +63,6 @@ const schemas = {
 const Contact = model("contact", contactSchema);
 
 module.exports = {
-    Contact,
-    schemas,
+  Contact,
+  schemas,
 };
