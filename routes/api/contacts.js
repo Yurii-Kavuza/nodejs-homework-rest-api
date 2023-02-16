@@ -5,16 +5,17 @@ const controller = require("../../controllers/contacts");
 const { ctrlWrapper } = require("../../helpers");
 
 const {
+  auth,
+  isValidId,
   validateParams,
   validateBody,
-  isValidId,
 } = require("../../middlewares");
 
 const { schemas } = require("../../models/contact");
 
 const router = express.Router();
 
-router.get("/", ctrlWrapper(controller.getAll));
+router.get("/", auth, ctrlWrapper(controller.getAll));
 
 router.get(
   "/:id",
@@ -25,6 +26,7 @@ router.get(
 
 router.post(
   "/",
+  auth,
   validateBody(schemas.joiSchemaAdd),
   ctrlWrapper(controller.add)
 );
