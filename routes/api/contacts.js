@@ -5,7 +5,6 @@ const controller = require("../../controllers/contacts");
 const { ctrlWrapper } = require("../../helpers");
 
 const {
-  auth,
   isValidId,
   validateParams,
   validateBody,
@@ -15,7 +14,7 @@ const { schemas } = require("../../models/contact");
 
 const router = express.Router();
 
-router.get("/", auth, ctrlWrapper(controller.getAll));
+router.get("/", ctrlWrapper(controller.getAll));
 
 router.get(
   "/:id",
