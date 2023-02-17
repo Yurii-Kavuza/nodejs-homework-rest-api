@@ -3,7 +3,8 @@ const { Contact } = require("../../models/contact");
 
 const deleteById = async (req, res, next) => {
   const { id } = req.params;
-  const result = await Contact.findByIdAndRemove(id);
+  const { _id } = req.user;
+  const result = await Contact.findOneAndRemove({_id: id, owner:_id});
   if (!result) {
     throw HttpError(404, "Not found");
   }
