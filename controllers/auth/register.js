@@ -9,7 +9,7 @@ const register = async (req, res) => {
     throw new Conflict(`Email in use`);
   }
   const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  const result = await User.create({ password: hashPass, email, subscription });
+  await User.create({ password: hashPass, email, subscription });
   const {subscription: subscriptionReg } = await User.findOne({ email });
   res.status(201).json({
     status: "success",
