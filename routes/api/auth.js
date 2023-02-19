@@ -2,7 +2,7 @@ const express = require("express");
 
 const controller = require("../../controllers/auth");
 const { ctrlWrapper } = require("../../helpers");
-const { joiRegisterSchema, joiLoginSchema } = require("../../models/user");
+const { schemas } = require("../../models/user");
 
 const { auth, validateBody } = require("../../middlewares");
 
@@ -10,14 +10,14 @@ const router = express.Router();
 
 router.post(
   "/register",
-  validateBody(joiRegisterSchema),
+  validateBody(schemas.joiRegisterSchema),
   ctrlWrapper(controller.register)
 );
 // It is possible router.post("/signup")
 
 router.post(
   "/login",
-  validateBody(joiLoginSchema),
+  validateBody(schemas.joiLoginSchema),
   ctrlWrapper(controller.login)
 );
 // It is possible router.post("/signin")
