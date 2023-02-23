@@ -9,7 +9,7 @@ const avatarsDir = path.join(__dirname, "../../public/avatars");
 const updateAvatar = async (req, res) =>{
     const { _id } = req.user;
     const {path: tempUpload, originalname}=req.file;
-    const imageName = `${_id}_${originalname}`;
+    const imageName = `${_id}_${+new Date()}_${originalname}`;
     try {    
         // resize
         const image = await jimp.read(tempUpload);
