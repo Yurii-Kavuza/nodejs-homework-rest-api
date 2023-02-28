@@ -23,11 +23,10 @@ describe("register", () => {
     });
 
     expect(response.status).toEqual(201);
-    expect(response.body.data.user.email).toEqual('user1@gmail.com');
+    expect(response.body.data.user.email).toEqual("user1@gmail.com");
     expect(response.body.data.user.subscription).toEqual("starter");
     expect(typeof response.body.data.user.avatarURL).toBe("string");
-    
-    
+
     // Other variant
     //
     // expect(response.body).toEqual({
