@@ -15,6 +15,14 @@ router.post(
 );
 // It is possible router.post("/signup")
 
+router.get("/verify/:verificationToken", ctrlWrapper(controller.verifyEmail));
+
+router.post(
+  "/verify",
+  validateBody(schemas.joiVerifyEmailSchema),
+  ctrlWrapper(controller.resendVerifyEmail)
+);
+
 router.post(
   "/login",
   validateBody(schemas.joiLoginSchema),
@@ -22,12 +30,7 @@ router.post(
 );
 // It is possible router.post("/signin")
 
-
-router.post(
-  "/logout",
-  auth,
-  ctrlWrapper(controller.logout)
-);
+router.post("/logout", auth, ctrlWrapper(controller.logout));
 // It is possible router.post("/signout")
 
 module.exports = router;
